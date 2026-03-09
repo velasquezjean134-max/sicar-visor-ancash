@@ -27,7 +27,7 @@ var capaPuntosCluster = L.markerClusterGroup({
 var capaPuntosIndividual = L.layerGroup();
 
 // Cargar el límite regional de Áncash al fondo
-fetch('http://127.0.0.1:8000/api/poligonos/ancash')
+fetch('https://api-sicar-ancash.onrender.com/api/poligonos/ancash')
     .then(r => r.json())
     .then(geo => L.geoJSON(geo, { pane: 'paneBase', interactive: false, style: { color: "#333333", weight: 2, dashArray: "5, 5", fillOpacity: 0 } }).addTo(mapa))
     .catch(e => console.error("Error cargando Áncash:", e));
@@ -58,7 +58,7 @@ function llenarChecklist(id, lista) {
 }
 
 // Carga inicial de filtros
-fetch('http://127.0.0.1:8000/api/filtros').then(r => r.json()).then(datos => {
+fetch('https://api-sicar-ancash.onrender.com/api/filtros').then(r => r.json()).then(datos => {
     llenarChecklist('filtro-tipo', datos.tipos); llenarChecklist('filtro-cuenca', datos.cuencas); llenarChecklist('filtro-provincia', datos.provincias); llenarChecklist('filtro-distrito', datos.distritos);
     aplicarFiltros(); 
 });
@@ -67,7 +67,7 @@ async function actualizarCascada(origen) {
     const cuencas = getMarcados('filtro-cuenca'); let provs = getMarcados('filtro-provincia');
     if (origen === 'cuenca') provs = []; 
     try {
-        const r = await fetch('http://127.0.0.1:8000/api/cascada', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cuencas: cuencas, provincias: provs }) });
+        const r = await fetch('https://api-sicar-ancash.onrender.com/api/cascada', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cuencas: cuencas, provincias: provs }) });
         const datos = await r.json();
         if (origen === 'cuenca') llenarChecklist('filtro-provincia', datos.provincias);
         llenarChecklist('filtro-distrito', datos.distritos);
