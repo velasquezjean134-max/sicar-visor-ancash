@@ -105,7 +105,7 @@ function aplicarFiltros() {
 
     if(txtRes) txtRes.innerHTML = "Resultados: Buscando...";
 
-    fetch('http://127.0.0.1:8000/api/filtrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(seleccion) })
+    fetch('https://api-sicar-ancash.onrender.com/api/filtrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(seleccion) })
     .then(r => r.json()).then(datos => {
         
         // Limpiamos capas previas
@@ -134,15 +134,15 @@ function aplicarFiltros() {
         let polyLegend = "";
         if (seleccion.distrito.length > 0) {
             polyLegend += `<div class="leyenda-item"><div class="leyenda-poly" style="background:#2ca02c; border-color:#2ca02c;"></div> Distritos</div>`;
-            fetch('http://127.0.0.1:8000/api/poligonos/distritos').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneDistritos', interactive: false, filter: (f) => f.properties.DISTRITO && seleccion.distrito.map(d=>d.toUpperCase().trim()).includes(f.properties.DISTRITO.toUpperCase().trim()), style: { color: "#2ca02c", weight: 2, fillOpacity: opD } }).addTo(capaDistritos); });
+            fetch('https://api-sicar-ancash.onrender.com/api/poligonos/distritos').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneDistritos', interactive: false, filter: (f) => f.properties.DISTRITO && seleccion.distrito.map(d=>d.toUpperCase().trim()).includes(f.properties.DISTRITO.toUpperCase().trim()), style: { color: "#2ca02c", weight: 2, fillOpacity: opD } }).addTo(capaDistritos); });
         }
         if (seleccion.provincia.length > 0) {
             polyLegend += `<div class="leyenda-item"><div class="leyenda-poly" style="background:#ff7f0e; border-color:#ff7f0e;"></div> Provincias</div>`;
-            fetch('http://127.0.0.1:8000/api/poligonos/provincias').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneProvincias', interactive: false, filter: (f) => f.properties.PROVINCIA && seleccion.provincia.map(p=>p.toUpperCase().trim()).includes(f.properties.PROVINCIA.toUpperCase().trim()), style: { color: "#ff7f0e", weight: 2, fillOpacity: opP } }).addTo(capaProvincias); });
+            fetch('https://api-sicar-ancash.onrender.com/api/poligonos/provincias').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneProvincias', interactive: false, filter: (f) => f.properties.PROVINCIA && seleccion.provincia.map(p=>p.toUpperCase().trim()).includes(f.properties.PROVINCIA.toUpperCase().trim()), style: { color: "#ff7f0e", weight: 2, fillOpacity: opP } }).addTo(capaProvincias); });
         }
         if (seleccion.cuenca.length > 0) {
             polyLegend += `<div class="leyenda-item"><div class="leyenda-poly" style="background:#0068c9; border-color:#0068c9;"></div> Cuencas</div>`;
-            fetch('http://127.0.0.1:8000/api/poligonos/cuencas').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneCuencas', interactive: false, filter: (f) => f.properties.NOMBRE && seleccion.cuenca.map(c=>c.toUpperCase().trim()).includes(f.properties.NOMBRE.toUpperCase().trim()), style: { color: "#0068c9", weight: 2, fillOpacity: opC } }).addTo(capaCuencas); });
+            fetch('https://api-sicar-ancash.onrender.com/api/poligonos/cuencas').then(r => r.json()).then(geo => { L.geoJSON(geo, { pane: 'paneCuencas', interactive: false, filter: (f) => f.properties.NOMBRE && seleccion.cuenca.map(c=>c.toUpperCase().trim()).includes(f.properties.NOMBRE.toUpperCase().trim()), style: { color: "#0068c9", weight: 2, fillOpacity: opC } }).addTo(capaCuencas); });
         }
 
         // MOSTRAR U OCULTAR LEYENDA
