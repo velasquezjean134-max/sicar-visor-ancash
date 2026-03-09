@@ -1,0 +1,360 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- ENCABEZADO INSTITUCIONAL --- */
+#encabezado {
+    background-color: #0182c7; /* Tu nuevo color azul institucional */
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 2000;
+}
+
+#encabezado h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff; /* Letras blancas para contrastar con el fondo azul */
+}
+
+#contenedor-principal {
+    flex: 1; /* Ocupa el resto de la pantalla */
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+#mapa {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #e5e5e5; /* Color de fondo gris mientras carga */
+}
+
+#btn-abrir-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1500;
+    background-color: #0068c9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#panel-filtros {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 320px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-cabecera { background-color: #0068c9; color: white; padding: 15px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+.panel-cabecera h3 { margin: 0; font-size: 16px; }
+#btn-cerrar-panel { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
+
+.panel-contenido { padding: 15px; font-size: 14px; color: #444; }
+label { font-size: 13px; font-weight: bold; color: #333; display: block; margin-top: 10px; }
+.filtro-select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9; box-sizing: border-box; }
+
+#btn-aplicar-filtros {
+    width: 100%; padding: 10px; margin-top: 20px;
+    background-color: #2ca02c; color: white; border: none;
+    border-radius: 4px; cursor: pointer; font-weight: bold; box-sizing: border-box;
+}
+#btn-aplicar-filtros:hover { background-color: #248224; }
+/* --- PANEL DERECHO DE DETALLES --- */
+#panel-detalles {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    max-height: 85vh; /* Evita que el panel sea más alto que la pantalla */
+    overflow-y: auto; /* Agrega una barra de desplazamiento si hay mucha info */
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    flex-direction: column;
+}
+
+/* Ajustes para el texto dentro del panel de detalles */
+#contenido-detalles p {
+    margin: 6px 0;
+    line-height: 1.4;
+    font-size: 13px;
+    color: #444;
+}
+#contenido-detalles hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+}
+/* --- ESTILOS PARA DESPLEGABLES CON CHECKBOX --- */
+.titulo-filtro {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.dropdown-check-list {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+
+/* El botón que simula ser el selector */
+.dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #444;
+}
+
+/* La flechita hacia abajo */
+.dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    padding: 4px;
+    right: 15px;
+    top: 30%;
+    transform: rotate(-135deg);
+}
+
+/* La lista desplegable oculta */
+.dropdown-check-list ul.items {
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 100; /* Flota sobre el resto del panel */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 4px 4px;
+}
+
+/* Mostrar la lista cuando tiene la clase 'visible' */
+.dropdown-check-list.visible .items {
+    display: block;
+}
+
+.dropdown-check-list ul.items li {
+    list-style: none;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.dropdown-check-list ul.items li label {
+    display: block;
+    cursor: pointer;
+    font-weight: normal;
+    color: #444;
+    margin: 0;
+}
+
+.dropdown-check-list ul.items li input {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* --- ESTILO DEL BOTÓN DE DESCARGA CSV --- */
+#btn-descargar-csv {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #2ca02c; /* Verde estilo Excel */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#btn-descargar-csv:hover {
+    background-color: #248224;
+}
+
+/* --- ESTILOS RECUPERADOS (LEYENDA, TOAST Y AVISO) --- */
+.logo-box img {
+    max-height: 40px;
+}
+
+#toast-bienvenida {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 3000;
+    transition: opacity 0.5s ease;
+    font-size: 14px;
+}
+
+#aviso-limite {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #ffeeba;
+    z-index: 3000;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#leyenda-mapa {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 12px;
+    border-radius: 5px;
+    border: 2px solid grey;
+    z-index: 1000;
+    font-size: 13px;
+    min-width: 150px;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.leyenda-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.leyenda-poly {
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border: 1px solid;
+    opacity: 0.5;
+}
+
+/* --- ESTILOS DE CABECERA Y SLIDER MINI --- */
+.filtro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.filtro-header .titulo-filtro {
+    margin: 0; /* Quitamos márgenes para que se alinee con el slider */
+}
+
+.slider-mini {
+    -webkit-appearance: none;
+    width: 80px; /* Tamaño compacto para que entre junto al título */
+    height: 4px;
+    background: #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+.slider-mini::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #0182c7;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.slider-mini::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #0182c7;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+/* --- ESTILO DEL INTERRUPTOR (TOGGLE SWITCH) --- */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider-toggle {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+.slider-toggle:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+input:checked + .slider-toggle {
+  background-color: #0182c7; /* Azul institucional */
+}
+input:checked + .slider-toggle:before {
+  transform: translateX(16px);
+}

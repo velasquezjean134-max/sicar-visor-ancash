@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Ambiental Áncash - SICAR</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <header id="encabezado">
+        <div class="logo-box">
+            <img src="logo_izquierdo.png" alt="Logo 1" onerror="this.style.display='none'; this.parentNode.innerHTML='Logo Izquierdo';">
+        </div>
+        <h2>Sistema de Información Ambiental Regional - SICAR</h2>
+        <div class="logo-box">
+            <img src="logo_derecho.png" alt="Logo 2" onerror="this.style.display='none'; this.parentNode.innerHTML='Logo Derecho';">
+        </div>
+    </header>
+
+    <div id="contenedor-principal">
+        
+        <button id="btn-abrir-panel" style="display: none;">☰ Filtros</button>
+        <div id="aviso-limite" style="display: none;">⚠️ Se requieren filtros para visualizar la data.</div>
+
+        <aside id="panel-filtros">
+            <div class="panel-cabecera">
+                <h3>Filtros de Búsqueda</h3>
+                <button id="btn-cerrar-panel">✖</button>
+            </div>
+            <div class="panel-contenido">
+                
+                <label class="titulo-filtro" style="margin-top: 5px;">1. Tipo de Información:</label>
+                <div class="dropdown-check-list" id="dd-tipo">
+                    <span class="anchor">Cargando...</span>
+                    <ul class="items" id="filtro-tipo"></ul>
+                </div>
+
+                <div class="filtro-header">
+                    <label class="titulo-filtro">2. Cuenca(s):</label>
+                    <input type="range" id="slider-cuenca" class="slider-mini" min="0" max="0.8" step="0.05" value="0.15" title="Ajustar transparencia">
+                </div>
+                <div class="dropdown-check-list" id="dd-cuenca">
+                    <span class="anchor">Cargando...</span>
+                    <ul class="items" id="filtro-cuenca"></ul>
+                </div>
+
+                <div class="filtro-header">
+                    <label class="titulo-filtro">3. Provincia(s):</label>
+                    <input type="range" id="slider-provincia" class="slider-mini" min="0" max="0.8" step="0.05" value="0.15" title="Ajustar transparencia">
+                </div>
+                <div class="dropdown-check-list" id="dd-provincia">
+                    <span class="anchor">Cargando...</span>
+                    <ul class="items" id="filtro-provincia"></ul>
+                </div>
+
+                <div class="filtro-header">
+                    <label class="titulo-filtro">4. Distrito(s):</label>
+                    <input type="range" id="slider-distrito" class="slider-mini" min="0" max="0.8" step="0.05" value="0.25" title="Ajustar transparencia">
+                </div>
+                <div class="dropdown-check-list" id="dd-distrito">
+                    <span class="anchor">Cargando...</span>
+                    <ul class="items" id="filtro-distrito"></ul>
+                </div>
+
+                <hr style="margin-top: 20px;">
+                
+                <div class="filtro-header" style="margin-top: 10px; margin-bottom: 15px;">
+                    <label class="titulo-filtro" for="toggle-cluster" style="cursor: pointer;">5. Agrupar puntos cercanos:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-cluster" checked>
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+
+                <p><strong id="contador-resultados">Resultados: 0 puntos encontrados.</strong></p>
+                
+                <button id="btn-descargar-csv" style="display: none;">📥 Descargar Base CSV</button>
+            </div>
+        </aside>
+
+        <div id="mapa"></div>
+
+        <div id="leyenda-mapa" style="display: none;">
+            <h4 style="margin: 0 0 5px 0; font-size: 14px;"><b>Leyenda</b></h4>
+            <div id="leyenda-contenido"></div>
+        </div>
+
+        <aside id="panel-detalles" style="display: none;">
+            <div class="panel-cabecera" style="background-color: #ff7f0e;">
+                <h3>Detalle del Punto</h3>
+                <button id="btn-cerrar-detalles">✖</button>
+            </div>
+            <div class="panel-contenido" id="contenido-detalles"></div>
+        </aside>
+
+        <div id="toast-bienvenida">👋 Bienvenido, active algunos filtros para poder iniciar a visualizar la información.</div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
